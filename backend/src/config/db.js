@@ -8,6 +8,21 @@ const db = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
+
+export const connectDB = async () => {
+  try {
+    const connection = await db.getConnection();
+    console.log("✅ Database connected successfully");
+    connection.release();
+  } catch (error) {
+    console.error("❌ Database connection failed:");
+    console.error(error.message);
+    process.exit(1);
+  }
+};
 
 export default db;
