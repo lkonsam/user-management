@@ -216,7 +216,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"user@gmail.com\",\r\n  \"password\": \"user123\"\r\n}\r\n",
+          "raw": "{\r\n  \"email\": \"admin@gmail.com\",\r\n  \"password\": \"admin123\"\r\n}\r\n",
           "options": {
             "raw": {
               "language": "json"
@@ -224,11 +224,12 @@
           }
         },
         "url": {
-          "raw": "{{api_url}}/login",
+          "raw": "{{api_url}}/auth/login",
           "host": [
             "{{api_url}}"
           ],
           "path": [
+            "auth",
             "login"
           ],
           "query": [
