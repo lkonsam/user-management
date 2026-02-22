@@ -33,6 +33,7 @@ export const loginService = async (email, password) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      status: user.status,
     },
   };
 };

@@ -32,7 +32,26 @@ export const createUser = async (req, res, next) => {
 
 export const updateProfile = async (req, res, next) => {
   try {
-    const IdToChange = (req.user.role == 'ADMIN') ? req.params.id : req.user.id; 
+    const isAdmin = req.user.role === 'ADMIN';
+    // Check if it's a self update: if no params.id or params.id matches current user
+    const isSelfUpdate = !req.params.id || parseInt(req.params.id) === req.user.id;
+    const IdToChange = isSelfUpdate ? req.user.id : parseInt(req.params.id);
+    
+    // Only admins can update other users
+    if (!isSelfUpdate && !isAdmin) {
+      throw { statusCode: 403, message: "You can only edit your own profile" };
+    }
+    
+    // Don't allow role changes for self updates
+    if (isSelfUpdate && req.body.role) {
+      throw { statusCode: 403, message: "You cannot change your own role" };
+    }
+    
+    // Only admins can change roles
+    if (req.body.role && !isAdmin) {
+      throw { statusCode: 403, message: "Only admins can change user roles" };
+    }
+    
     const result = await updateUserService(IdToChange, req.body);
     res.json(result);
   } catch (error) {

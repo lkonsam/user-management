@@ -1,8 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
-import type { LoginResponse } from "../types/auth.types";
+import { login } from "../api/auth.api";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,15 +12,15 @@ export default function Login() {
     password: "",
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     try {
-      const res = await API.post<LoginResponse>("/auth/login", form);
+      const loginData = await login(form.email, form.password);
+      
+      context?.login(loginData);
 
-      context?.login(res.data);
-
-      if (res.data.user.role === "ADMIN") {
+      if (loginData.user.role === "ADMIN") {
         navigate("/admin");
       } else {
         navigate("/profile");

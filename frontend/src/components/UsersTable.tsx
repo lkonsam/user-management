@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { getUsers, updateUserStatus } from "../api/user.api";
-import type { User, UsersObject } from "../types/auth.types";
+import type { User } from "../types/auth.types";
+import UpdateProfileModal from "./UpdateProfileModal";
 
 export default function UsersTable() {
-  const [users, setUsers] = useState<UsersObject[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -23,11 +26,11 @@ export default function UsersTable() {
 
   const handleToggle = async (user: User) => {
     try {
-      await updateUserStatus(user.id, !user.isActive);
+      await updateUserStatus(user.id, user.status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
 
       setUsers((prev) =>
         prev.map((u) =>
-          u.id === user.id ? { ...u, isActive: !u.isActive } : u
+          u.id === user.id ? { ...u, status: u.status === "ACTIVE" ? "INACTIVE" : "ACTIVE" } : u
         )
       );
     } catch (error) {
@@ -62,31 +65,55 @@ export default function UsersTable() {
               <td className="px-6 py-4">
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    user.isActive
+                    user.status === "ACTIVE"
                       ? "bg-green-100 text-green-700"
                       : "bg-red-100 text-red-700"
                   }`}
                 >
-                  {user.isActive ? "Active" : "Inactive"}
+                  {user.status === "ACTIVE" ? "Active" : "Inactive"}
                 </span>
               </td>
 
-              <td className="px-6 py-4 text-center">
+              <td className="px-6 py-4 text-center space-x-2 flex justify-center">
+                <button
+                  onClick={() => {
+                    setSelectedUser(user);
+                    setIsModalOpen(true);
+                  }}
+                  className="px-4 py-1 rounded-lg text-white text-xs bg-blue-600 hover:bg-blue-700"
+                >
+                  Edit
+                </button>
                 <button
                   onClick={() => handleToggle(user)}
                   className={`px-4 py-1 rounded-lg text-white text-xs ${
-                    user.isActive
+                    user.status === "ACTIVE"
                       ? "bg-red-600 hover:bg-red-700"
                       : "bg-green-600 hover:bg-green-700"
                   }`}
                 >
-                  {user.isActive ? "Deactivate" : "Activate"}
+                  {user.status === "ACTIVE" ? "Deactivate" : "Activate"}
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {selectedUser && isModalOpen && (
+        <UpdateProfileModal
+          user={selectedUser}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedUser(null);
+          }}
+          onSuccess={() => {
+            fetchUsers();
+            setIsModalOpen(false);
+            setSelectedUser(null);
+          }}
+        />
+      )}
     </div>
   );
 }

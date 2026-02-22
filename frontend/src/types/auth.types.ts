@@ -5,12 +5,7 @@ export interface User {
   name: string;
   email: string;
   role: Role;
-  isActive: boolean;
-}
-
-
-export interface UsersObject {
-  users: User[];
+  status: 'ACTIVE' | 'INACTIVE';
 }
 
 export interface LoginResponse {

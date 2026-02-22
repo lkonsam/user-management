@@ -56,7 +56,7 @@ export default function AdminLayout({ children }: Props) {
 
         {/* Top Navbar */}
         <header className="bg-white shadow px-6 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-semibold">Admin Dashboard</h1>
+          <h1 className="text-xl font-semibold hover:cursor-pointer"  onClick={() => navigate("/admin")} >Admin Dashboard</h1>
 
           <div className="text-sm text-gray-600">
             Logged in as: <span className="font-medium">{context?.user?.name}</span>
