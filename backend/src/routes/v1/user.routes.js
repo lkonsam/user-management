@@ -11,7 +11,6 @@ import {
 
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
 import { adminMiddleware } from "../../middlewares/admin.middleware.js";
-import { validateRequest } from "../../middlewares/validation.middleware.js";
 
 import {
   createUserValidator,
@@ -32,7 +31,6 @@ userRouter.post(
   authMiddleware,
   adminMiddleware,
   createUserValidator,
-  validateRequest,
   createUser
 );
 
@@ -48,7 +46,6 @@ userRouter.put(
   authMiddleware,
   adminMiddleware,
   updateUserValidator,
-  validateRequest,
   updateProfile
 );
 
@@ -58,7 +55,6 @@ userRouter.patch(
   authMiddleware,
   adminMiddleware,
   updateUserStatusValidator,
-  validateRequest,
   updateUserStatus
 );
 

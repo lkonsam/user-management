@@ -34,6 +34,10 @@ app.use(express.json());
 
 await connectDB();
 
+// Start periodic purge of expired revoked tokens
+import { startRevokedTokenPurger } from "./utils/startPurge.js";
+startRevokedTokenPurger();
+
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running successfully 🚀" });
 });
