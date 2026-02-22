@@ -32,16 +32,16 @@ export default function CreateUserModal({ onClose, onSuccess }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-      <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6">
-        <h2 className="text-lg font-semibold mb-4">Create New User</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white w-full max-w-md rounded-lg shadow-xl p-4 sm:p-6">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4">Create New User</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <input
             type="text"
             placeholder="Name"
             required
-            className="w-full border px-4 py-2 rounded-lg"
+            className="w-full border border-gray-300 px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             onChange={(e) =>
               setForm({ ...form, name: e.target.value })
             }
@@ -51,7 +51,7 @@ export default function CreateUserModal({ onClose, onSuccess }: Props) {
             type="email"
             placeholder="Email"
             required
-            className="w-full border px-4 py-2 rounded-lg"
+            className="w-full border border-gray-300 px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             onChange={(e) =>
               setForm({ ...form, email: e.target.value })
             }
@@ -61,14 +61,14 @@ export default function CreateUserModal({ onClose, onSuccess }: Props) {
             type="password"
             placeholder="Password"
             required
-            className="w-full border px-4 py-2 rounded-lg"
+            className="w-full border border-gray-300 px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             onChange={(e) =>
               setForm({ ...form, password: e.target.value })
             }
           />
 
           <select
-            className="w-full border px-4 py-2 rounded-lg"
+            className="w-full border border-gray-300 px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             onChange={(e) =>
               setForm({
                 ...form,
@@ -80,11 +80,11 @@ export default function CreateUserModal({ onClose, onSuccess }: Props) {
             <option value="ADMIN">Admin</option>
           </select>
 
-          <div className="flex justify-end space-x-2">
+          <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 rounded-lg"
+              className="w-full sm:w-auto px-4 py-2.5 sm:py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-sm sm:text-base font-medium transition"
             >
               Cancel
             </button>
@@ -92,7 +92,7 @@ export default function CreateUserModal({ onClose, onSuccess }: Props) {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="w-full sm:w-auto px-4 py-2.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 text-sm sm:text-base font-medium transition"
             >
               {loading ? "Creating..." : "Create"}
             </button>
